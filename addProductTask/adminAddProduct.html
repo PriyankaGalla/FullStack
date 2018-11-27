@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Add a Product</title>
+    <h1>Hello Admin!! Please proceed to add your products</h1>
+    </head>
+    <body id="pageBody">
+        <form id="productForm" style="text-align: center">
+        
+            Product Name : <input type="text" id="pname"> <br><br><br>
+            Product Id : <input type="text" id="pid"> <br><br><br>
+            Product Image : <input type="text" id="pimage"> <br><br><br>
+            Product Price : <input type="text" id="price"> <br><br><br> 
+            <input type="button" value="Add Product" onclick="addProduct()"> <br><br><br>
+            
+        </form>
+       
+        <script>
+            function addProduct(){
+                var pageBody = document.getElementById("pageBody");
+
+                var div = document.createElement("div");
+                div.setAttribute("style","float:left")
+
+                var img = document.createElement("img");
+                img.setAttribute("id", "imgId");
+                img.setAttribute("src",document.getElementById("pimage").value);
+                div.appendChild(img);
+
+                var name = document.createElement("p");
+                name.setAttribute("id","name");
+				name.setAttribute("style","text-align:center");
+                name.innerHTML = document.getElementById("pname").value;
+                div.appendChild(name);
+
+                var pid = document.createElement("p");
+                pid.setAttribute("id","pid");
+				pid.setAttribute("style","text-align:center");
+                pid.innerHTML = document.getElementById("pid").value;
+                div.appendChild(pid);
+
+                var price = document.createElement("p");
+                price.setAttribute("id","name");
+				price.setAttribute("style","text-align:center");
+                price.innerHTML = document.getElementById("price").value;
+                div.appendChild(price);
+                
+                
+                pageBody.append(div);
+                
+                form = document.getElementById("productForm");
+                form.reset();
+            }
+        </script>
+    </body>
+</html>

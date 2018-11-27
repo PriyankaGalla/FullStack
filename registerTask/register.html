@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+     
+
+     <head>
+          <h1>Form</h1>
+        <style>
+            form {
+                     text-align: center;
+                  }
+             body{
+                     background-color: burlywood;
+                 }
+             table,th,td{
+                      text-align:center;
+                      border: 1px solid black;
+                      margin-left: auto;
+                      margin-right: auto;
+                 }
+                 
+        </style>
+
+
+        
+          <title>DigitalLync</title>
+         
+         <h1 style="text-align: center">Registration Form</h1>
+            
+     </head>
+
+     <body>
+             <form id="regForm">
+                Username:<input type="text" id="username" name="username" required>  <br><br>
+                password:<input type="password" id="password"> <br><br>
+                emailid:<input type="text" id="emailid"> <br><br>
+                 city: <select id="city">
+                              <option disabled="disabled" selected="true"></option>
+                              <option value="Hyderabad">Hyderabad</option>
+                              <option value="Secunderabad">Secunderabad</option>
+                              <option value="Banglore">Banglore</option>
+                              <option value="Chennai">Chennai</option>
+                       </select> <br><br>
+
+                  Something about yourself:<textarea id="say"></textarea><br><br>
+                   <input type="radio" value="Male" name="gender"> Male
+                   <input type="radio" value="Female" name="gender"> Female
+                   <input type="radio"  value="Others" name="gender"> others
+                    <br><br>
+                   <input type="checkbox" id="tandc"> I agree to terms and conditions. <br><br>
+                   <!-- <input type="submit" onclick="register()" value="Register Me"> -->
+                   <input type="submit" id="regButton" onclick="registerMultiple()" value="Register Me">
+              </form>
+              
+                 <div style="visibility:hidden;">
+                   akjshdkjashdgfjg
+                        <p id="d_username"></p>
+                        <p id="d_password"></p>
+                        <p id="d_emailid"></p>
+                        <p id="d_city"></p>
+                        <p id="d_say"></p>
+                        <p id="d_tandc"></p>
+                       
+
+                 </div>
+                
+                    <table id="tab" style="display:none;">
+                         <tr>
+                              <th>User Detail</th>
+                              <th>Value</th>
+                         </tr>
+                         <tr>
+                              <td>User Name</td>
+                              <td id="t_username"></td>
+                         </tr>
+                         <tr>
+                              <td>Password</td>
+                              <td id="t_password"></td>
+                         </tr>
+                         <tr>
+                              <td>EmailId</td>
+                              <td id="t_emailid"></td>
+                         </tr>
+                         <tr>
+                              <td>City</td>
+                              <td id="t_city"></td>
+                         </tr>
+                         <tr>
+                              <td>Description</td>
+                              <td id="t_description"></td>
+                         </tr>
+                         <tr>
+                              <td>Terms Flag</td>
+                              <td id="t_tcf"></td>
+                         </tr>
+                        
+                    </table>
+                    
+                    <table id="tabMultiple" style="visibility:hidden;">
+                             
+                         </table>
+                 
+                 <script>
+                      var check="";
+
+                      var person = {username:"", password:"", emailid:"", city:"", desc:"", gender:"" , terms:""};
+                           
+                      
+                           function register(){
+                             event.preventDefault();
+                             document.getElementById("tab").style.visibility="visible";
+                            var username=document.getElementById("username");
+                            var password=document.getElementById("password");
+                            var emailid = document.getElementById("emailid");
+                            var city = document.getElementById("city");
+                            var desc = document.getElementById("say");
+                            var tflag = document.getElementById("tandc");
+                            //console.log(username.value);
+                            //username.value="";
+                           document.getElementById('t_username').innerHTML=username.value;
+                           document.getElementById('t_password').innerHTML=password.value;
+                           document.getElementById('t_emailid').innerHTML=emailid.value;
+                           document.getElementById('t_city').innerHTML=city.value;
+                           document.getElementById('t_description').innerHTML=desc.value;
+                           document.getElementById('t_tcf').innerHTML=check;
+                           }
+
+                           function registerMultiple(){
+
+                              event.preventDefault();
+                              assignRegister();
+                              if(person.username == null || person.username == "" ){
+                                   alert("Please enter the username");
+                                   return;
+                              }
+                              else  if(person.password == null || person.password == "" ){
+                                   alert("Please enter the password");
+                                   return;
+                              }
+                              else  if(person.emailid == null || person.emailid == "" ){
+                                   alert("Please enter the email id");
+                                   return;
+                              }
+                              else  if(person.city == null || person.city == "" ){
+                                   alert("Please select the city");
+                                   return;
+                              }
+                              else  if(person.desc == null || person.desc == "" ){
+                                   alert("Please write a few words about yourself");
+                                   return;
+                              }
+                              else  if(person.gender == null || person.gender == "" ){
+                                   alert("Please select the gender");
+                                   return;
+                              }
+                              var checkBox = document.getElementById("tandc");
+                                   if (checkBox.checked == true){
+                                   check="I accept";
+                                   checkBox.value=1;
+                                   } 
+                                   else {
+                                   check = "I do not accept the terms";
+                                   checkBox.value=0;
+                                   alert("Please accept the terms and conditions to proceed with registration");
+                                   return;
+                               }
+                             
+                              document.getElementById("tabMultiple").style.visibility="visible";
+                              var table = document.getElementById("tabMultiple");
+                              var rowCount = table.rows.length;
+                           /* var row0 = table.insertRow(rowCount-1);
+                              var cell0 = row.insertCell(0); */
+
+			               var row = table.insertRow(rowCount);
+                              var cell0 = row.insertCell(0);
+                              cell0.innerHTML = person.username;
+                              var cell1 = row.insertCell(1);
+                              cell1.innerHTML = person.password;
+                              var cell2 = row.insertCell(2);
+                              cell2.innerHTML = person.emailid;
+                              var cell3 = row.insertCell(3);
+                              cell3.innerHTML = person.city;
+                              var cell4 = row.insertCell(4);
+                              cell4.innerHTML = person.desc;
+                              var cell5 = row.insertCell(5);
+                              cell5.innerHTML = person.gender;
+                              var cell6 = row.insertCell(6);
+                              cell6.innerHTML = person.terms;
+                              var cell7 = row.insertCell(7);
+                              cell7.innerHTML = "<td><input type=\"button\" id=\"del\" value=\"Delete\" onclick=\"deleteThisRow(this)\"/></td>";
+
+                              if (rowCount == 4){
+                                   document.getElementById("regButton").disabled=true;
+                              }
+
+                              var form = document.getElementById("regForm");
+                             
+                              form.reset();
+                           }
+                           function deleteThisRow(row)
+                           {
+                              var i=row.parentNode.parentNode.rowIndex;
+                              document.getElementById('tabMultiple').deleteRow(i);
+                              var table = document.getElementById("tabMultiple");
+                              var rowCount = table.rows.length;
+                              if(rowCount == 0){
+                                   document.getElementById("tabMultiple").style.visibility="hidden";
+                              }
+                           }
+                           function assignRegister(){
+                              
+                              person.username = document.getElementById("username").value;
+                              person.password = document.getElementById("password").value;
+                              person.emailid = document.getElementById("emailid").value;
+                              person.city = document.getElementById("city").value;
+                              person.desc = document.getElementById("say").value;
+                              person.gender = document.getElementById("regForm").gender.value;
+                              person.terms =  document.getElementById("tandc").value;
+                           }
+                 </script>
+           
+     </body>
+
+</html>
