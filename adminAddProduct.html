@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Add a Product</title>
+    <h1>Hello Admin!! Please proceed to add your products</h1>
+    <style>
+    
+    .grid-container {
+        display:inline-grid;
+        grid-template-columns: auto auto auto;
+        padding: 10px;
+        align-content:center;
+      }
+      .grid-item {
+        background-color: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        font-size: 30px;
+        text-align: center;
+      }
+    </style>
+    </head>
+    <body id="pageBody">
+        <form id="productForm" style="text-align: center">
+        
+            Product Name : <input type="text" id="pname"> <br><br><br>
+            Product Id : <input type="text" id="pid"> <br><br><br>
+            Product Image : <input type="text" id="pimage"> <br><br><br>
+            Product Price : <input type="text" id="price"> <br><br><br> 
+            <input type="button" value="Add Product" onclick="addProduct()"> <br><br><br>
+            <div class="grid-container" id="gridContainer"></div>
+        </form>
+       
+        <script>
+            function addProduct(){
+               
+                var pageBody = document.getElementById("pageBody");
+                var gridContainer = document.getElementById("gridContainer");
+                
+
+                var div = document.createElement("div");
+                div.setAttribute("class","grid-item");
+
+               var close = document.createElement("button");
+                close.innerHTML="x";
+                close.setAttribute("style","float:right");
+                close.setAttribute("onclick","this.parentNode.parentNode.removeChild(this.parentNode);");
+                div.appendChild(close); 
+
+                var img = document.createElement("img");
+                img.setAttribute("id", "imgId");
+                img.setAttribute("src",document.getElementById("pimage").value);
+                div.appendChild(img);
+
+                var name = document.createElement("p");
+                name.setAttribute("id","name");
+				name.setAttribute("style","text-align:center;line-height:0px");
+                name.innerHTML = document.getElementById("pname").value;
+                div.appendChild(name);
+
+                var pid = document.createElement("p");
+                pid.setAttribute("id","pid");
+				pid.setAttribute("style","text-align:center;line-height:0px");
+                pid.innerHTML = document.getElementById("pid").value;
+                div.appendChild(pid);
+
+                var price = document.createElement("p");
+                price.setAttribute("id","name");
+				price.setAttribute("style","text-align:center;line-height:0px");
+                price.innerHTML = document.getElementById("price").value;
+                div.appendChild(price);
+                
+                gridContainer.append(div);
+              
+                form = document.getElementById("productForm");
+                form.reset();
+            }
+
+            function closeFunction(button){
+                event.preventDefault();
+                
+                //button.parentNode.parentNode.removeChild(button.parentNode);
+                
+                
+               
+               
+               
+            }
+        </script>
+    </body>
+</html>
