@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Product Addition</title>
+        <h1>Welcome Admin. Please add your products below</h1>
+        <style>
+                .grid-container {
+                display:inline-grid;
+                grid-template-columns: auto auto auto;
+                padding: 10px;
+                align-content:center;
+            }
+            .grid-item {
+                background-color: rgba(255, 255, 255, 0.8);
+                border: 1px solid rgba(0, 0, 0, 0.8);
+                padding: 20px;
+                font-size: 30px;
+                text-align: center;
+      }
+        </style>
+    </head>
+
+    <body>
+	<button type="button" style="float:right" onclick="logoutUser()">LogOut</button> 
+     <form id="productForm" style="text-align: center">
+        Product Name : <input type="text" id="pname"> <br><br>
+        Product Image : <input type="text" id="pimg">  <br><br> <!-- try local path -->
+        Product Price : <input type="text" id="pprice">  <br><br>
+        <input type="hidden" id="cp" value="">
+        <button type="button" id="add" onclick="addProduct()">Add Product</button>   
+        <input id="cB" type="button" style="display:none" value="Cancel Editing" onclick="updateCancel()">  
+        <input id="uB" type="button" style="display:none" value="Update Product" onclick="updateProduct()"> <br><br><br>
+        <div class="grid-container" id="gridContainer"></div>
+     <form id="productForm" style="text-align: center">
+        </form>
+        <script>
+		function logoutUser(){
+		alert("Logout ??");
+		window.sessionStorage.clear();
+		window.open('regLocal.html');
+		}
+            var products = [];
+            var productIndex = 0;
+            function addProduct(){
+
+                var gridContainer = document.getElementById("gridContainer");
+                // pushing the details into an array
+                var name = document.getElementById("pname").value;
+                var price = document.getElementById("pprice").value;
+                var ind = productIndex++;
+                var each = {pname:name,pprice:price,pid:ind};
+                products.push(each);
+
+                // creating a div and adding elements to it
+                var eachdiv = document.createElement("div");
+                eachdiv.setAttribute("id","product"+ind);
+                eachdiv.setAttribute("class","grid-item");
+
+                var close = document.createElement("button");
+                close.innerHTML="x";
+                close.setAttribute("style","float:right");
+				close.setAttribute("type","button");
+                close.setAttribute("name","small");
+                close.setAttribute("id","cl"+ind);
+                close.setAttribute("onclick","closeFunction(this);");
+                eachdiv.appendChild(close); 
+
+                var edit = document.createElement("button");
+                edit.innerHTML="e";
+                edit.setAttribute("style","float:right");
+				edit.setAttribute("type","button");
+                edit.setAttribute("name","small");
+                edit.setAttribute("onclick","editFunction(this);");
+                eachdiv.appendChild(edit); 
+
+                var img = document.createElement("img");
+                img.setAttribute("id", "imgId"+ind);
+                img.setAttribute("src",document.getElementById("pimg").value);
+                eachdiv.appendChild(img);
+
+                var p_name = document.createElement("p");
+                p_name.setAttribute("id","name"+ind);
+				p_name.setAttribute("style","text-align:center;line-height:0px");
+                p_name.innerHTML = name;
+                eachdiv.appendChild(p_name);
+
+                var pid = document.createElement("p");
+                pid.setAttribute("id","pid"+ind);
+				pid.setAttribute("style","text-align:center;line-height:0px");
+                pid.innerHTML = ind;
+                eachdiv.appendChild(pid);
+
+                var p_price = document.createElement("p");
+                p_price.setAttribute("id","price"+ind);
+				p_price.setAttribute("style","text-align:center;line-height:0px");
+                p_price.innerHTML = price;
+                eachdiv.appendChild(p_price);
+
+                gridContainer.append(eachdiv);
+
+                console.log("Displaying the array of products after addition:","Length is ",products.length," and the array is",products);
+                form = document.getElementById("productForm");
+				
+                form.reset();
+            }
+
+             function closeFunction(cl){
+                    console.log("Inside close function");
+                    var parentid = document.getElementById(cl.parentNode.id).id;
+                    alert(parentid);
+                    var id = parentid.replace('product','');
+                    for(var j=0;j<products.length;j++){
+                    if(products[j].pid == id) {
+                        products.splice(j, 1);
+                     break;
+                    }
+                }
+                cl.parentNode.parentNode.removeChild(cl.parentNode);
+                console.log("Displaying the array of products after deletion:","Length is ",products.length," and the array is",products);
+            }
+
+            function editFunction(ed){
+                var parentid = document.getElementById(ed.parentNode.id).id;
+                var id = parentid.replace('product','');
+                document.getElementById("cp").value = id;
+                document.getElementById("add").style.display = "none";
+                document.getElementById("cB").style.display = "inline";
+                document.getElementById("uB").style.display = "inline";
+                var elems = document.getElementsByName("small");
+                for(var i=0;i<elems.length;i++){
+                    elems[i].setAttribute("disabled","disabled");
+                }
+                document.getElementById("pimg").setAttribute("disabled","disabled");
+            }
+            function updateCancel(){
+                document.getElementById("add").style.display = "inline";
+                document.getElementById("cB").style.display = "none";
+                document.getElementById("uB").style.display = "none";
+                var elems = document.getElementsByName("small");
+                for(var i=0;i<elems.length;i++){
+                    elems[i].removeAttribute("disabled");
+                }
+                form = document.getElementById("productForm");
+                form.reset();
+                document.getElementById("pimg").removeAttribute("disabled");
+                
+            }
+            function updateProduct(){
+                var pid = document.getElementById("cp").value;
+                alert(pid);
+                document.getElementById("name"+pid).innerHTML = document.getElementById("pname").value;
+                document.getElementById("price"+pid).innerHTML = document.getElementById("pprice").value;
+
+                for(var i in products){
+                    if (products[i].pid == pid) {
+                        products[i].pname = document.getElementById("pname").value;
+                        products[i].pprice = document.getElementById("pprice").value;
+                    break; //Stop this loop, we found it!
+                    }
+                }
+                form = document.getElementById("productForm");
+				
+                form.reset();
+                document.getElementById("add").style.display = "inline";
+                document.getElementById("cB").style.display = "none";
+                document.getElementById("uB").style.display = "none";
+                var elems = document.getElementsByName("small");
+                for(var i=0;i<elems.length;i++){
+                    elems[i].removeAttribute("disabled");
+                }
+                document.getElementById("pimg").removeAttribute("disabled");
+                console.log("Displaying the array of products after updation:","Length is ",products.length," and the array is",products);
+            }
+
+        </script>
+    </body>
+</html>

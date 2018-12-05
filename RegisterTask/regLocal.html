@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Register User Locally</title>
+        <h1>Welcome to Registration Page !!</h1>
+    </head>
+    <body>
+
+        <div id="main"></div>
+        <button type="login" id="loginBt" onclick="login()">Login</button>
+        <button type="button" id="regBt" onclick="register()">Register</button>
+        <button type="button" id="forBt" onclick="forgot()">Forgot Password</button>
+        <form id="login" style="text-align: center;visibility: hidden">
+           User Name : <input type="text" id="lname"> <br><br>
+           Password : <input type="password" id="lpassword"> <br><br>
+           <button type="button" onclick="loginUser()">Login</button>
+        </form>
+        <form id="register" style="text-align: center;visibility: hidden">
+                User Name : <input type="text" id="rname"> <br><br>
+                Password : <input type="password" id="rpassword"> <br><br>
+                Mail Id : <input type="text" id="rmail"> <br><br>
+                Re-enter Password : <input type="password" id="repassword"> <br><br>
+                <button type="button" onclick="registerNewUser()">Register</button>
+        </form>
+      
+    <script>
+        var users = [];
+        //var person = {username:"", password:""};
+        var password = "";
+        var loginForm = document.getElementById("login");
+        var registerForm = document.getElementById("register");
+        var forgotForm = document.getElementById("forgot");
+
+        function login(){
+            var isRegVisible = registerForm.style.visibility;
+            if(isRegVisible == "visible"){
+                registerForm.style.visibility = "hidden";
+            }
+           loginForm.style.visibility = "visible";
+           loginForm.style.display = "block";
+
+        }
+        function register(){
+            var isLogVisible = loginForm.style.visibility;
+            if(isLogVisible == "visible"){
+                loginForm.style.visibility = "hidden";
+            }
+            loginForm.style.display = "none";
+            registerForm.style.visibility = "visible";
+            
+        }
+        function forgot(){
+            window.open('forgotPassword.html');
+
+        }
+
+        function loginUser(){
+            alert("Logging in");
+         var name = document.getElementById("lname").value;
+         var password = document.getElementById("lpassword").value;
+         var getUser = JSON.parse(window.localStorage.getItem(name));
+         if(getUser === null){
+             alert("User not registered. Please register to login");
+         }
+         else{
+             if(getUser.password == password){
+                 
+                 alert("Password Matched"+getUser.username);
+                 window.sessionStorage.setItem("username",getUser.username);
+                 window.open('practise/myProduct.html');
+             }
+             else{
+                 alert("Wrong Password");
+             }
+         }
+
+        }
+        function registerNewUser(){
+            alert("Hello");
+         var name = document.getElementById("rname").value;
+         var password = document.getElementById("rpassword").value;
+         var mail = document.getElementById("rmail").value;
+         var repass = document.getElementById("repassword").value;
+         var getUser = JSON.parse(window.localStorage.getItem(name));
+         if(getUser === null){
+            var person = {username:name,password:password,email:mail};
+        
+         window.localStorage.setItem(name,JSON.stringify(person));
+         alert("User registered successfully");
+         }
+         else{
+           alert("User already exists. Please use a different user name")
+         }
+         var form = document.getElementById("register");
+         form.reset();
+        }
+        
+        
+    </script>
+    </body>
+</html>
